@@ -19,7 +19,17 @@ services:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
-
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n
+    restart: unless-stopped
+    environment:
+      - N8N_HOST=n8n-ktn.duckdns.org
+      - N8N_PROTOCOL=https
+      - WEBHOOK_URL=https://n8n-ktn.duckdns.org/
+      - TZ=Asia/Tokyo
+    volumes:
+      - ./n8n_data:/home/node/.n8n
 volumes:
   caddy_data:
   caddy_config:
