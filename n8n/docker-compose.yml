@@ -1,0 +1,25 @@
+services:
+  duckdns:
+    image: lscr.io/linuxserver/duckdns:latest
+    container_name: duckdns
+    environment:
+      - TZ=Asia/Tokyo
+      - SUBDOMAINS=n8n-ktn,n8n-test-ktn
+      - TOKEN=8fcd1720-8378-4e53-80ab-f44e8d12de30
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:
