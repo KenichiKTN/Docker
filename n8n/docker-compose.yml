@@ -16,7 +16,7 @@ services:
       retries: 10
 
   n8n:
-    build: .              # ← ここが重要（Dockerfileを使う）
+    image: n8nio/n8n:latest   # ← build をやめて image に戻す
     container_name: n8n_app
     restart: unless-stopped
     env_file:
@@ -30,6 +30,17 @@ services:
       postgres:
         condition: service_healthy
 
+  sqlite_writer:
+    build: ./sqlite-writer
+    container_name: sqlite_writer
+    restart: unless-stopped
+    environment:
+      - SQLITE_DB_PATH=/hostdata/株式データベース.db
+      - TZ=Asia/Tokyo
+    volumes:
+      - "C:/Users/kenic/Documents/DataBase:/hostdata"
+    ports:
+      - "3000:3000"
 volumes:
   n8n_postgres_data:
     external: true
