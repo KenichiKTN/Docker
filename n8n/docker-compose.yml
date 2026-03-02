@@ -16,17 +16,16 @@ services:
       retries: 10
 
   n8n:
-    image: n8nio/n8n:latest
+    build: .              # ← ここが重要（Dockerfileを使う）
     container_name: n8n_app
     restart: unless-stopped
     env_file:
       - .env
     environment:
       - TZ=Asia/Tokyo
-    ports:
-      - "5678:5678"
     volumes:
       - n8n_data:/home/node/.n8n
+      - "C:/Users/kenic/Documents/DataBase:/hostdata"
     depends_on:
       postgres:
         condition: service_healthy
