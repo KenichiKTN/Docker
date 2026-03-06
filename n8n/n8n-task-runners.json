@@ -1,17 +1,12 @@
 {
   "task-runners": [
     {
-      "runner-type": "javascript",
-      "health-check-server-port": 5681
+      "runner-type": "javascript"
     },
     {
       "runner-type": "python",
-      "health-check-server-port": 5682,
-      "python-policy": {
-        "allow-stdlib": [
-          "hmac",
-          "hashlib"
-        ]
+      "env-overrides": {
+        "N8N_RUNNERS_STDLIB_ALLOW": "hmac,hashlib"
       }
     }
   ]
