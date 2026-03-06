@@ -16,13 +16,19 @@ services:
       retries: 10
 
   n8n:
-    image: n8nio/n8n:latest   # ← build をやめて image に戻す
+    image: n8nio/n8n:latest
     container_name: n8n_app
     restart: unless-stopped
     env_file:
       - .env
     environment:
       - TZ=Asia/Tokyo
+      - GENERIC_TIMEZONE=Asia/Tokyo
+      - N8N_RUNNERS_ENABLED=true
+      - N8N_RUNNERS_MODE=external
+      - N8N_RUNNERS_BROKER_LISTEN_ADDRESS=0.0.0.0
+      - N8N_RUNNERS_AUTH_TOKEN=${N8N_RUNNERS_AUTH_TOKEN}
+      - N8N_NATIVE_PYTHON_RUNNER=true
     volumes:
       - n8n_data:/home/node/.n8n
       - "C:/Users/kenic/Documents/DataBase:/hostdata"
@@ -41,6 +47,17 @@ services:
       - "C:/Users/kenic/Documents/DataBase:/hostdata"
     ports:
       - "3000:3000"
+
+  n8n_runner:
+    image: n8nio/runners:latest
+    container_name: n8n_runner
+    restart: unless-stopped
+    environment:
+      - N8N_RUNNERS_TASK_BROKER_URI=http://n8n_app:5679
+      - N8N_RUNNERS_AUTH_TOKEN=${N8N_RUNNERS_AUTH_TOKEN}
+    depends_on:
+      - n8n
+
 volumes:
   n8n_postgres_data:
     external: true
