@@ -1,0 +1,16 @@
+{
+  "task-runners": [
+    {
+      "runner-type": "javascript"
+    },
+    {
+      "runner-type": "python",
+      "python-policy": {
+        "allow-stdlib": [
+          "hmac",
+          "hashlib"
+        ]
+      }
+    }
+  ]
+}
