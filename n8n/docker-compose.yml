@@ -41,7 +41,6 @@ services:
     container_name: sqlite_writer
     restart: unless-stopped
     environment:
-      - SQLITE_DB_PATH=/hostdata/株式データベース.db
       - TZ=Asia/Tokyo
     volumes:
       - "C:/Users/kenic/Documents/DataBase:/hostdata"
